@@ -55,9 +55,10 @@ namespace acortarurlcjcm.App{
         public string UrlToken(string token) {
             using (var db = new LiteDatabase(Properties.Resources.Conexionlite))
             {
+                var tbl = db.GetCollection<clsUrl>("urls");
                 clsUrl objurl = db.GetCollection<clsUrl>("urls").FindOne(u => u.Token == token);
                 objurl.Clicked = objurl.Clicked + 1;
-
+                tbl.Update(objurl);
                 return db.GetCollection<clsUrl>("urls").FindOne(u => u.Token == token).URL;
             }
         }
